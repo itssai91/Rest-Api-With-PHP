@@ -13,8 +13,8 @@ if (isset($_GET['token']) && $_GET['token'] === $db->api_token && isset($_GET['n
     if ($result) {
         echo json_encode(["status" => 200, "name" => $_GET['email']]);
     } else {
-        echo json_encode(["status" => 200, "name" => "Student Already Registered"]);
+        echo json_encode(["status" => 300, "name" => "Student Already Registered"]);
     }
 } else {
-    echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
+    echo json_encode(['status' => 400, 'Error message' => "Invalid API"]);
 }

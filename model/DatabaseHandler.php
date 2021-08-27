@@ -16,30 +16,34 @@ class DatabaseHandler
         $this->conn = $conn;
     }
 
-    function get_data($key)
+    function get_data()
     {
-        if ($this->api_token === $key) {
-            $query = "SELECT * FROM `$this->table_name` ";
-            $result = $this->conn->query($query);
-            return $result;
-        } else {
-            echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
-        }
+        $query = "SELECT * FROM `$this->table_name` ";
+        $result = $this->conn->query($query);
+        return $result;
     }
 
-    function add_data($key, $name, $roll_no, $email_id)
+    function add_data($name, $roll_no, $email_id)
     {
-        if ($this->api_token === $key) {
-            if ($this->check_register($email_id)) {
+        if ($this->check_register($email_id)) {
                 $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
                 $this->conn->query($query);
                 $this->close();
                 return true;
+        } else {
+                return false;
+        }
+    }
+
+    function delete_data($email)
+    {
+        if (!$this->check_register($email)) {
+            $query = "DELETE FROM `$this->table_name` WHERE `$this->col_email` = '$email'";
+            if ($this->conn->query($query)) {
+                return true;
             } else {
                 return false;
             }
-        } else {
-            echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
         }
     }
 
