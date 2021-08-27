@@ -1,7 +1,7 @@
 <?php
 class DatabaseHandler
 {
-    public $api_token = "B8@c90E2xcV_39VeRT9-c689o04Q9c"; //30 Digits
+    private $api_token = "B8@c90E2xcV_39VeRT9-c689o04Q9c"; //30 Digits
 
     private $conn;
     private $table_name = "student";
@@ -14,6 +14,11 @@ class DatabaseHandler
     function __construct($conn)
     {
         $this->conn = $conn;
+    }
+
+    function get_api_token()
+    {
+        return $this->api_token;
     }
 
     function get_data()
@@ -32,6 +37,18 @@ class DatabaseHandler
                 return true;
         } else {
                 return false;
+        }
+    }
+
+    function update_data($name, $roll, $new_email, $old_email)
+    {
+        if (!$this->check_register($old_email)) {
+            $query = "UPDATE `$this->table_name` SET `$this->col_name` = '$name', `$this->col_roll` = '$roll', `$this->col_email` = '$new_email' WHERE `$this->col_email` = '$old_email'";
+            if ($this->conn->query($query)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

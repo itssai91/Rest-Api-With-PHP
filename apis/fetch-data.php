@@ -6,7 +6,7 @@ require_once('../model/DatabaseHandler.php');
 
 $db = new DatabaseHandler($conn);
 
-if (isset($_GET['token']) && $_GET['token'] === $db->api_token) {
+if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token()) {
 
     $result = $db->get_data($_GET['token']);
 
