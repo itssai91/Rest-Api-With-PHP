@@ -25,9 +25,24 @@ class DatabaseHandler
 
     function add_data($name, $roll_no, $email_id)
     {
-        $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
-        $this->conn->query($query);
-        return true;
+        if ($this->check_register($email_id)) {
+            $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
+            $this->conn->query($query);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function check_register($s_email)
+    {
+        $query = "SELECT * FROM `$this->table_name` WHERE `$this->col_email` = '$s_email'";
+        $result = $this->conn->query($query);
+        if ($result->num_rows > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     function close()
