@@ -1,8 +1,8 @@
 <?php
 class DatabaseHandler
 {
-    private $api_token = "B8@c90E2xcV_39VeRT9-c689o04Q9c"; //30 Digits
-    
+    public $api_token = "B8@c90E2xcV_39VeRT9-c689o04Q9c"; //30 Digits
+
     private $conn;
     private $table_name = "student";
 
@@ -21,6 +21,7 @@ class DatabaseHandler
         if ($this->api_token === $key) {
             $query = "SELECT * FROM `$this->table_name` ";
             $result = $this->conn->query($query);
+            $this->close();
             return $result;
         } else {
             echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
@@ -33,6 +34,7 @@ class DatabaseHandler
             if ($this->check_register($email_id)) {
                 $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
                 $this->conn->query($query);
+                $this->close();
                 return true;
             } else {
                 return false;

@@ -1,11 +1,12 @@
 <?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-require_once('conn.php');
-require_once('DatabaseHandler.php');
+require_once('../model/conn.php');
+require_once('../model/DatabaseHandler.php');
 
-if (isset($_GET['token'])) {
-    $db = new DatabaseHandler($conn);
+$db = new DatabaseHandler($conn);
+
+if (isset($_GET['token']) && $_GET['token'] === $db->api_token) {
 
     $result = $db->get_data($_GET['token']);
 
