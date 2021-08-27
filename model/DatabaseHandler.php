@@ -21,7 +21,6 @@ class DatabaseHandler
         if ($this->api_token === $key) {
             $query = "SELECT * FROM `$this->table_name` ";
             $result = $this->conn->query($query);
-            $this->close();
             return $result;
         } else {
             echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
