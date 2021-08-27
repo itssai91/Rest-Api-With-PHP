@@ -1,8 +1,8 @@
 <?php
-
 class DatabaseHandler
 {
-
+    private $api_token = "B8@c90E2xcV_39VeRT9-c689o04Q9c"; //30 Digits
+    
     private $conn;
     private $table_name = "student";
 
@@ -16,21 +16,29 @@ class DatabaseHandler
         $this->conn = $conn;
     }
 
-    function get_data()
+    function get_data($key)
     {
-        $query = "SELECT * FROM `$this->table_name` ";
-        $result = $this->conn->query($query);
-        return $result;
+        if ($this->api_token === $key) {
+            $query = "SELECT * FROM `$this->table_name` ";
+            $result = $this->conn->query($query);
+            return $result;
+        } else {
+            echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
+        }
     }
 
-    function add_data($name, $roll_no, $email_id)
+    function add_data($key, $name, $roll_no, $email_id)
     {
-        if ($this->check_register($email_id)) {
-            $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
-            $this->conn->query($query);
-            return true;
+        if ($this->api_token === $key) {
+            if ($this->check_register($email_id)) {
+                $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
+                $this->conn->query($query);
+                return true;
+            } else {
+                return false;
+            }
         } else {
-            return false;
+            echo json_encode(['status' => false, 'Error message' => "Invalid API"]);
         }
     }
 
