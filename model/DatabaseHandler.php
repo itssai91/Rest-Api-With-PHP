@@ -10,6 +10,7 @@ class DatabaseHandler
     private $col_name  = "name";
     private $col_roll  = "roll_no";
     private $col_email = "email_id";
+    private $col_timestamp = "timestamp";
 
     function __construct($conn)
     {
@@ -28,12 +29,12 @@ class DatabaseHandler
         return $result;
     }
 
-    function add_data($name, $roll_no, $email_id)
+    function add_data($name, $roll_no, $email_id, $date_time)
     {
         if ($this->check_register($email_id)) {
-            $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES(?, ?, ?)";
+            $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`, `$this->col_timestamp`) VALUES(?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('sss', $name, $roll_no, $email_id);
+            $stmt->bind_param('ssss', $name, $roll_no, $email_id, $date_time);
             if ($stmt->execute()) {
                 if ($stmt != null) {
                     $stmt->close();
@@ -46,12 +47,12 @@ class DatabaseHandler
         }
     }
 
-    function update_data($name, $roll, $new_email, $old_email)
+    function update_data($name, $roll, $new_email, $old_email, $date_time)
     {
         if (!$this->check_register($old_email)) {
-            $query = "UPDATE `$this->table_name` SET `$this->col_name` = ?, `$this->col_roll` = ?, `$this->col_email` = ? WHERE `$this->col_email` = ?";
+            $query = "UPDATE `$this->table_name` SET `$this->col_name` = ?, `$this->col_roll` = ?, `$this->col_email` = ?, `$this->col_timestamp` = ? WHERE `$this->col_email` = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('ssss', $name, $roll, $new_email, $old_email);
+            $stmt->bind_param('sssss', $name, $roll, $new_email, $old_email, $date_time);
             if ($stmt->execute()) {
                 if ($stmt != null) {
                     $stmt->close();
