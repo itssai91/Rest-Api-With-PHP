@@ -31,10 +31,16 @@ class DatabaseHandler
     function add_data($name, $roll_no, $email_id)
     {
         if ($this->check_register($email_id)) {
-                $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES('$name', '$roll_no', '$email_id')";
-                $this->conn->query($query);
+            $query = "INSERT INTO `$this->table_name`(`$this->col_name`, `$this->col_roll`, `$this->col_email`) VALUES(?, ?, ?)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('sss', $name, $roll_no, $email_id);
+            if ($stmt->execute()) {
+                if ($stmt != null) {
+                    $stmt->close();
+                }
                 $this->close();
                 return true;
+            }
         } else {
                 return false;
         }
@@ -43,8 +49,14 @@ class DatabaseHandler
     function update_data($name, $roll, $new_email, $old_email)
     {
         if (!$this->check_register($old_email)) {
-            $query = "UPDATE `$this->table_name` SET `$this->col_name` = '$name', `$this->col_roll` = '$roll', `$this->col_email` = '$new_email' WHERE `$this->col_email` = '$old_email'";
-            if ($this->conn->query($query)) {
+            $query = "UPDATE `$this->table_name` SET `$this->col_name` = ?, `$this->col_roll` = ?, `$this->col_email` = ? WHERE `$this->col_email` = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('ssss', $name, $roll, $new_email, $old_email);
+            if ($stmt->execute()) {
+                if ($stmt != null) {
+                    $stmt->close();
+                }
+                $this->close();
                 return true;
             } else {
                 return false;
@@ -55,8 +67,14 @@ class DatabaseHandler
     function delete_data($email)
     {
         if (!$this->check_register($email)) {
-            $query = "DELETE FROM `$this->table_name` WHERE `$this->col_email` = '$email'";
-            if ($this->conn->query($query)) {
+            $query = "DELETE FROM `$this->table_name` WHERE `$this->col_email` = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('s', $email);
+            if ($stmt->execute()) {
+                if ($stmt != null) {
+                    $stmt->close();
+                }
+                $this->close();
                 return true;
             } else {
                 return false;

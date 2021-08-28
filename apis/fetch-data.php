@@ -17,8 +17,8 @@ if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token()) {
         echo json_encode(['status' => 200, 'data' => $arr]);
         $db->close();
     } else {
-        echo json_encode(['status' => 300, 'data' => 'Data Not Found']);
+        echo json_encode(['status' => 300, 'msg' => 'Data Not Found']);
     }
 } else {
-    echo json_encode(['status' => 400, 'Error message' => "Invalid API"]);
+    echo json_encode(['status' => 400, 'msg' => "Invalid API"]);
 }

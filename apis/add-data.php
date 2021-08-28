@@ -9,12 +9,15 @@ require_once('../model/DatabaseHandler.php');
 $db = new DatabaseHandler($conn);
 
 if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_GET['name']) && isset($_GET['roll']) && isset($_GET['email'])) {
-    $result = $db->add_data($_GET['name'], $_GET['roll'], $_GET['email']);
+    $name = ucwords($_GET['name']);
+    $roll = strtoupper($_GET['roll']);
+    $email = strtolower($_GET['email']);
+    $result = $db->add_data($name, $roll, $email);
     if ($result) {
-        echo json_encode(["status" => 200, "name" => $_GET['email']]);
+        echo json_encode(["status" => 200, "msg" => $email]);
     } else {
-        echo json_encode(["status" => 300, "name" => "Student Already Registered"]);
+        echo json_encode(["status" => 300, "msg" => "Student Already Registered"]);
     }
 } else {
-    echo json_encode(['status' => 400, 'Error message' => "Invalid API"]);
+    echo json_encode(['status' => 400, 'msg' => "Invalid API"]);
 }
