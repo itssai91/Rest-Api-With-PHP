@@ -8,8 +8,8 @@ require_once('../model/DatabaseHandler.php');
 
 $db = new DatabaseHandler($conn);
 
-if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_GET['email'])) {
-    $email = strtolower($_GET['email']);
+if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_POST['email'])) {
+    $email = strtolower($_POST['email']);
     if ($db->delete_data($email)) {
         echo json_encode(["status" => 200, "msg" => $email . " Deleted"]);
     } else {

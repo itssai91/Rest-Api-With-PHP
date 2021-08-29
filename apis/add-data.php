@@ -8,11 +8,11 @@ require_once('../model/DatabaseHandler.php');
 
 $db = new DatabaseHandler($conn);
 
-if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_GET['name']) && isset($_GET['roll']) && isset($_GET['email'])) {
-    
-    $name = ucwords($_GET['name']);
-    $roll = strtoupper($_GET['roll']);
-    $email = strtolower($_GET['email']);
+if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_POST['name']) && isset($_POST['roll']) && isset($_POST['email'])) {
+
+    $name = ucwords($_POST['name']);
+    $roll = strtoupper($_POST['roll']);
+    $email = strtolower($_POST['email']);
     $date_time = date_time();
 
     $result = $db->add_data($name, $roll, $email, $date_time);

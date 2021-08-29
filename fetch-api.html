@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>roll</th>
+            <th>email</th>
+        </tr>
+        <tr>
+            <td id="colId"></td>
+            <td id="colName"></td>
+            <td id="colRoll"></td>
+            <td id="colEmail"></td>
+            <td id="colTimestamps"></td>
+        </tr>
+    </table>
+
+    <script>
+        fetch('https://api.infranetstudio.com/apis/fetch-data.php?token=B8@c90E2xcV_39VeRT9-c689o04Q9c')
+            .then((apidata) => {
+
+                return apidata.json();
+
+            }).then((actualdata) => {
+
+                document.getElementById('colId').innerHTML = actualdata.data[2]._id;
+                document.getElementById('colName').innerHTML = actualdata.data[2].name;
+                document.getElementById('colRoll').innerHTML = actualdata.data[2].roll_no;
+                document.getElementById('colEmail').innerHTML = actualdata.data[2].email_id;
+                document.getElementById('colTimestamps').innerHTML = actualdata.data[2].timestamp;
+
+                console.log(actualdata);
+
+            }).catch((err) => {
+                console.log(err);
+            })
+    </script>
+</body>
+
+</html>

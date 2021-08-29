@@ -9,12 +9,12 @@ require_once('../model/DatabaseHandler.php');
 $db = new DatabaseHandler($conn);
 
 
-if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_GET['name']) && isset($_GET['roll']) && isset($_GET['new-email']) && isset($_GET['old-email'])) {
-    
-    $name = ucwords($_GET['name']);
-    $roll = strtoupper($_GET['roll']);
-    $new_email = strtolower($_GET['new-email']);
-    $old_email = strtolower($_GET['old-email']);
+if (isset($_GET['token']) && $_GET['token'] === $db->get_api_token() && isset($_POST['name']) && isset($_POST['roll']) && isset($_POST['new-email']) && isset($_POST['old-email'])) {
+
+    $name = ucwords($_POST['name']);
+    $roll = strtoupper($_POST['roll']);
+    $new_email = strtolower($_POST['new-email']);
+    $old_email = strtolower($_POST['old-email']);
     $date_time =  date_time();
 
     if ($db->update_data($name, $roll, $new_email, $old_email, $date_time)) {

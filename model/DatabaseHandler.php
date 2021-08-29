@@ -52,7 +52,7 @@ class DatabaseHandler
         if (!$this->check_register($old_email)) {
             $query = "UPDATE `$this->table_name` SET `$this->col_name` = ?, `$this->col_roll` = ?, `$this->col_email` = ?, `$this->col_timestamp` = ? WHERE `$this->col_email` = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param('sssss', $name, $roll, $new_email, $old_email, $date_time);
+            $stmt->bind_param('sssss', $name, $roll, $new_email, $date_time, $old_email);
             if ($stmt->execute()) {
                 if ($stmt != null) {
                     $stmt->close();
