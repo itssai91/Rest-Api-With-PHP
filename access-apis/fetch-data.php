@@ -1,6 +1,17 @@
 <?php
-$data = file_get_contents('https://api.infranetstudio.com/apis/fetch-data.php?token=B8@c90E2xcV_39VeRT9-c689o04Q9c');
-$student = json_decode($data, true);
+
+$url = "https://api.infranetstudio.com/apis/fetch-data.php?token=B8@c90E2xcV_39VeRT9-c689o04Q9c";
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+
+$result = curl_exec($ch);
+curl_close($ch);
+
+$student = json_decode($result, true);
 // print_r($student);
 ?>
 
@@ -63,7 +74,10 @@ $student = json_decode($data, true);
                 <?php
 
 
-                $total = count($student['data']);
+                if ($student['data']) {
+                    $total = count($student['data']);
+                }
+
 
                 $i = 0;
                 while ($i < $total) {
@@ -87,7 +101,6 @@ $student = json_decode($data, true);
                         <td style="background: #9ED9CCFF"> <?php echo $student['data'][$i]['roll_no'] . "<br>" ?> </td>
                         <td style="background: #fc95c6"> <?php echo $student['data'][$i]['email_id'] . "<br>" ?> </td>
                         <td style="background: #88d28b"> <?php echo $student['data'][$i]['timestamp'] . "<br>" ?> </td>
-
                         <td style="background: #bed2f3">
                             <form method="post">
                                 <input type="text" hidden name="hidden-email" value="<?php echo $student['data'][$i]['email_id'] ?>">
