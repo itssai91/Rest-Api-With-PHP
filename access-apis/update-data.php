@@ -31,7 +31,7 @@
 
 <body>
     <header class="header">
-        <span class="title">Add Student</span>
+        <span class="title">Update Student Data</span>
     </header>
     <div>
 
